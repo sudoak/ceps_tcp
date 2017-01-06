@@ -1,0 +1,19 @@
+{
+  "name": "ceps_tcp",
+  "version": "1.0.0",
+  "description": "TCP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudoak/ceps_tcp.git"
+  },
+  "author": "sudoak",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sudoak/ceps_tcp/issues"
+  },
+  "homepage": "https://github.com/sudoak/ceps_tcp#readme"
+}
