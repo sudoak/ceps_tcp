@@ -67,7 +67,7 @@ net.createServer(function(socket) {
             async.parallel({
                 one: function(callback) {
                     for (var i = 3; i < 8; i++) {
-                        if (parseFloat(array[i]) >= default_parameters.voltage) {
+                        if (parseFloat(array[i]) >= db.voltage) {
                             var earth_pit = i - 2
                             console.log("-----------------------")
                             console.log("TOO HEAVY Voltage" + "E->" + earth_pit + "\tVOLTS->" + array[i])
