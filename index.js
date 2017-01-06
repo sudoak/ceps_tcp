@@ -59,7 +59,7 @@ var clients = [];
 
 net.createServer(function(socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort
-    console.log(socket)
+    console.log(socket.name)
     socket.on('data', (data) => {
         var sample = data.toString().replace(/[$#]/g, '')
         var array = sample.split(',')
