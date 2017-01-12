@@ -65,7 +65,7 @@ net.createServer(function(socket) {
         var sample = data.toString().replace(/[$#]/g, '')
         var xsample = data.toString().replace(/[$#/r]/g, '')
         console.log("DATA=>" + xsample)
-        var array = sample.split(',')
+        var array = xsample.split(',')
         console.log(array)
         if (array.length === 8) {
             async.parallel({
