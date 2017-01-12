@@ -142,4 +142,8 @@ net.createServer(function(socket) {
     socket.on('end', function() {
         clients.splice(clients.indexOf(socket), 1);
     });
+    socket.on('close', function() {
+        console.log('Connection closed');
+        clients.splice(clients.indexOf(socket), 1);
+    });
 }).listen(9002)
