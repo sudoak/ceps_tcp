@@ -61,8 +61,10 @@ net.createServer(function(socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort
     console.log(socket.name)
     socket.on('data', (data) => {
-        console.log(data)
+
         var sample = data.toString().replace(/[$#]/g, '')
+        var xsample = data.toString().replace(/[$#/r]/g, '')
+        console.log("DATA=>" + xsample)
         var array = sample.split(',')
         console.log(array)
         if (array.length === 8) {
