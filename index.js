@@ -137,6 +137,7 @@ net.createServer(function(socket) {
                 console.log("-----------------------")
             });
         }
+        socket.destroy()
     });
     socket.on('end', function() {
         clients.splice(clients.indexOf(socket), 1);
