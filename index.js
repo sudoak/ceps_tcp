@@ -63,7 +63,7 @@ net.createServer(function(socket) {
     socket.on('data', (data) => {
 
         var sample = data.toString().replace(/[$#]/g, '')
-        var xsample = data.toString().replace(/[$#/r]/g, '')
+        var xsample = data.toString().replace(/[$#\r]/g, '')
         console.log("DATA=>" + xsample)
         var array = xsample.split(',')
         console.log(array)
