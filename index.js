@@ -61,7 +61,6 @@ net.createServer(function(socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort
     console.log(socket.name)
     socket.on('data', (data) => {
-
         var sample = data.toString().replace(/[$#]/g, '')
         var xsample = data.toString().replace(/[$#\r]/g, '')
         console.log("DATA=>" + xsample)
@@ -142,8 +141,8 @@ net.createServer(function(socket) {
     socket.on('end', function() {
         clients.splice(clients.indexOf(socket), 1);
     });
-    socket.on('close', function() {
+    /*socket.on('close', function() {
         console.log('Connection closed');
         clients.splice(clients.indexOf(socket), 1);
-    });
+    });*/
 }).listen(9002)
