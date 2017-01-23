@@ -48,6 +48,13 @@ var db_schema = new mongoose.Schema({
     date_time: String
 });
 
+var sms_schema = mongoose.Schema({
+    device_id: String,
+    mobile_no: String
+})
+
+
+
 var error_schema = mongoose.Schema({
     error_string: String,
     date_time: String
@@ -55,6 +62,7 @@ var error_schema = mongoose.Schema({
 
 var DB = mongoose.model("DB", db_schema);
 var ERROR_DATA = mongoose.model("errorData", error_schema);
+var SMS = mongoose.model('sms', sms_schema)
 var clients = [];
 
 net.createServer(function(socket) {
@@ -69,24 +77,32 @@ net.createServer(function(socket) {
         if (array.length === 8) {
             async.parallel({
                 one: function(callback) {
-                    for (var i = 3; i < 8; i++) {
-                        if (parseFloat(array[i]) >= dp.voltage) {
-                            var earth_pit = i - 2
-                            console.log("-----------------------")
-                            console.log("TOO HEAVY Voltage" + "E->" + earth_pit + "\tVOLTS->" + array[i])
-                            console.log("-----------------------")
-                            var sms_url = "http://login.aonesms.com/sendurlcomma.aspx?user=20064619&pwd=6xuxkn&senderid=PAPAYA&mobileno=9912701623,9949285123,9849744264&msgtext=High Voltage alert. The earth pit CEP053 connected to device Earth pit " + earth_pit + " at RailTel is reporting high voltage of " + array[i] + " volts. This is above the threshold and needs your attention&smstype=0"
-                            request(sms_url, function(error, response, body) {
-                                if (!error && response.statusCode == 200) {
-                                    //console.log("ERROR =>" + error + "\tResponse =>" + response.statusCode + "\tBody=>" + body); // Show the HTML for the Google homepage.
-                                    //callback(null, "SMS SENT");
-                                    console.log("SMS SENT")
-                                } else {
-                                    console.log("SMS NOT SENT" + "\t ERRRRRRRRR" + error)
+                    SMS.findOne({ device_id : array[1]},function(err,data) {
+                        if(err){
+                            console.log(err)
+                        }else{
+                            var ddata = JSON.parse(JSON.stringify(data))
+                            console.log(ddata)
+                            for (var i = 3; i < 8; i++) {
+                                if (parseFloat(array[i]) >= dp.voltage) {
+                                    var earth_pit = i - 2
+                                    console.log("-----------------------")
+                                    console.log("TOO HEAVY Voltage" + "E->" + earth_pit + "\tVOLTS->" + array[i])
+                                    console.log("-----------------------")
+                                    var sms_url = "http://login.aonesms.com/sendurlcomma.aspx?user=20064619&pwd=6xuxkn&senderid=PAPAYA&mobileno="+ ddata.mobile_no +"&msgtext=High Voltage alert. The earth pit CEP053 connected to device Earth pit " + earth_pit + " at RailTel is reporting high voltage of " + array[i] + " volts. This is above the threshold and needs your attention&smstype=0"
+                                    request(sms_url, function(error, response, body) {
+                                        if (!error && response.statusCode == 200) {
+                                            //console.log("ERROR =>" + error + "\tResponse =>" + response.statusCode + "\tBody=>" + body); // Show the HTML for the Google homepage.
+                                            //callback(null, "SMS SENT");
+                                            console.log("SMS SENT")
+                                        } else {
+                                            console.log("SMS NOT SENT" + "\t ERRRRRRRRR" + error)
+                                        }
+                                    })
                                 }
-                            })
+                            }
                         }
-                    }
+                    })
                     callback(null, "SMS SENT")
 
                 },
